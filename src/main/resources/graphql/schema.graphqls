@@ -1,0 +1,103 @@
+enum  Role {
+    ADMIN
+    CUSTOMER
+    SELLER
+}
+
+enum OrderStatus {
+    PENDING
+    PROCESSING
+    DELIVERED
+    CANCELLED
+}
+
+enum  PaymentMethod {
+    CREDIT_CARD
+    PAYPAL
+    STRIPE
+    CASH_ON_DELIVERY
+}
+
+type  User {
+    id:ID!
+    name:String!
+    role:Role!
+    createdAt:String!
+    UpdatedAt:String!
+    Orders:[Order!]!
+    reviews: [Review!]!
+}
+
+type  Product {
+   id: ID!
+    name :String!
+    description:String
+    price : Float!
+    stock: Int!
+    Category :Category!
+    Seller: User!
+    reviews :[Review!]!
+    averageRating:Float!
+    createdAt: String!
+    UpdatedAt: String!
+}
+
+type Category{
+    id:ID!
+    name:String!
+    description:String
+    products:[Product!]!
+
+}
+
+type  Order{
+   id:ID!
+    user : User!
+    items: [OrderItem!]!
+    total: Float!
+    status : OrderStatus!
+    paymentMethod: PaymentMethod!
+    createdAt:String!
+    updatedAt: String!
+}
+
+
+type OrderItem {
+    id : ID!
+    product: Product!
+    quantity :Int !
+    subtotal: Float!
+}
+
+type  Review{
+
+    id :ID!
+    product: Product!
+    user: User!
+    rating : Int!
+    comment : String!
+    createdAt:String!
+}
+
+
+type  Query {
+    orders: [Order]!
+    order(id:ID!) :Order!
+
+    products: [Product]!
+    product(id:ID!) :Product!
+}
+
+input  CreateProductInput{
+    name: String!
+    description: String
+    price :Float!
+    stock:Int!
+    CategoryId:ID!
+
+}
+
+type  Mutation {
+    createProduct(input:CreateProductInput!):Product
+
+}
