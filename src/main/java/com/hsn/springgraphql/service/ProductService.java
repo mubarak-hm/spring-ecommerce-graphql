@@ -1,6 +1,8 @@
 package com.hsn.springgraphql.service;
 
+import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
+import com.hsn.springgraphql.repository.CategoryRepository;
 import com.hsn.springgraphql.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -13,18 +15,33 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
 
-    private  final ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private  final  CategoryRepository categoryRepository;
+
     public Product getProduct(Long id) {
-        Optional<Product>  optionalProduct= productRepository.findById(id);
-        if (optionalProduct.isEmpty()){
-            throw  new EntityNotFoundException("product not found");
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            throw new EntityNotFoundException("product not found");
         }
-        return  optionalProduct.get();
+        return optionalProduct.get();
+    }
+
+       public Category getProductCategory(Long productId){
+        Product product =productRepository.findById(productId).orElseThrow(()-> new EntityNotFoundException("product not found"));
+        return  product.getCategory();
+
+       }
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
 
-    public List<Product> getAllProducts() {
-        return  productRepository.findAll();
+
+    public   void   createProduct(){
+        Product  product =new Product();
+
+
     }
 
 }

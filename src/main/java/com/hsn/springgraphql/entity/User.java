@@ -1,4 +1,5 @@
 package com.hsn.springgraphql.entity;
+
 import com.hsn.springgraphql.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;

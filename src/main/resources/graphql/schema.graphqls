@@ -34,7 +34,7 @@ type  Product {
     description:String
     price : Float!
     stock: Int!
-    Category :Category!
+    category :Category!
     Seller: User!
     reviews :[Review!]!
     averageRating:Float!
