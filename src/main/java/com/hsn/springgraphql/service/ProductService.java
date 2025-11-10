@@ -1,5 +1,6 @@
 package com.hsn.springgraphql.service;
 
+import com.hsn.springgraphql.dto.CreateProductRequest;
 import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
 import com.hsn.springgraphql.repository.CategoryRepository;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private  final  CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public Product getProduct(Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
@@ -26,22 +27,31 @@ public class ProductService {
         return optionalProduct.get();
     }
 
-       public Category getProductCategory(Long productId){
-        Product product =productRepository.findById(productId).orElseThrow(()-> new EntityNotFoundException("product not found"));
-        return  product.getCategory();
+    public Category getProductCategory(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("product not found"));
+        return product.getCategory();
 
-       }
+    }
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
 
+    public Product createProduct(CreateProductRequest request) {
+        Optional<Category> optionalCategory = categoryRepository.findById(Long.parseLong(request.categoryId()));
+        if (optionalCategory.isEmpty()) {
+            throw new EntityNotFoundException("category not found");
 
-    public   void   createProduct(){
-        Product  product =new Product();
-
-
+        }
+        Product product = Product.builder()
+                .name(request.productName())
+                .price(request.price())
+                .stock(request.stock())
+                .description(request.description())
+                .category(optionalCategory.get())
+                .build();
+        return productRepository.save(product);
     }
 
 }

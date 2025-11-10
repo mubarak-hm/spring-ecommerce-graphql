@@ -1,9 +1,15 @@
 package com.hsn.springgraphql.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 
 @Entity
+@Getter
+@Setter
 @Table(name = "order_items")
+
 public class OrderItem {
 
     @Id

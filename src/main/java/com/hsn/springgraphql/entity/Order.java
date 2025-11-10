@@ -3,6 +3,7 @@ package com.hsn.springgraphql.entity;
 import com.hsn.springgraphql.enums.OrderStatus;
 import com.hsn.springgraphql.enums.PaymentMethod;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

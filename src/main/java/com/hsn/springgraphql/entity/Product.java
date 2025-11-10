@@ -1,8 +1,7 @@
 package com.hsn.springgraphql.entity;
 
 import jakarta.persistence.Entity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +10,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @Table(name = "products")
+@NoArgsConstructor
 public class Product {
 
     @Id

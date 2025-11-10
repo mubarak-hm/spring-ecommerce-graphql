@@ -70,7 +70,6 @@ type OrderItem {
 }
 
 type  Review{
-
     id :ID!
     product: Product!
     user: User!
@@ -93,11 +92,30 @@ input  CreateProductInput{
     description: String
     price :Float!
     stock:Int!
-    CategoryId:ID!
+    categoryId:ID!
+
+}
+input  CreateCategoryInput{
+    name:String!
+    description:String
+
+}
+input CreateNewOrderInput{
+    items: [CreateNewOrderItemInput!]!
+    paymentMethod: PaymentMethod!
+
+
+}
+input CreateNewOrderItemInput{
+    productId: ID!
+    quantity:Int!
 
 }
 
+
+
 type  Mutation {
     createProduct(input:CreateProductInput!):Product
-
+    createCategory(input:CreateCategoryInput!):Category
+    createOrder(input:CreateNewOrderInput!):Order
 }

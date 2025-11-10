@@ -1,6 +1,7 @@
 package com.hsn.springgraphql.controller;
 
 
+import com.hsn.springgraphql.dto.CreateProductRequest;
 import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
 import com.hsn.springgraphql.service.ProductService;
@@ -33,6 +34,11 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+
+    @MutationMapping
+    public  Product  createProduct(@Argument CreateProductRequest input){
+        return  productService.createProduct(input);
+    }
 
 
 }
