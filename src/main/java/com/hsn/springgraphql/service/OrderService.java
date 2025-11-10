@@ -13,6 +13,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +42,17 @@ public class OrderService {
         }
         newOrder.setTotal(total);
         return orderRepository.save(newOrder);
+
+    }
+
+    public Order getSingleOrder(String id) {
+        return orderRepository.findById(Long.parseLong(id))
+                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+    }
+
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
 
     }
 
