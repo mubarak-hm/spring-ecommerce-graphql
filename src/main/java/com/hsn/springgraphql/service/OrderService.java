@@ -24,12 +24,12 @@ public class OrderService {
 
     public Order createOrder(CreateOrderRequest request) {
         Order newOrder = new Order();
-        newOrder.setPaymentMethod(request.PaymentMethod());
+        newOrder.setPaymentMethod(request.paymentMethod());
         newOrder.setStatus(OrderStatus.PENDING);
         double total = 0.0;
 
         for (CreateNewOrderItemRequest itemRequest : request.items()) {
-            Product product = productRepository.findById(Long.parseLong(itemRequest.ProductId()))
+            Product product = productRepository.findById(Long.parseLong(itemRequest.productId()))
                     .orElseThrow(() -> new EntityNotFoundException(" product not found"));
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(product);

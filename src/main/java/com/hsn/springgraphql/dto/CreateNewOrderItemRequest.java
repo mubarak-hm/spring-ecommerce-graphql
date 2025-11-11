@@ -1,4 +1,4 @@
 package com.hsn.springgraphql.dto;
 
-public record CreateNewOrderItemRequest(String ProductId, Integer quantity) {
+public record CreateNewOrderItemRequest(String productId, Integer quantity) {
 }

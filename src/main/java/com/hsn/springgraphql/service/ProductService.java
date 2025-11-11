@@ -1,10 +1,12 @@
 package com.hsn.springgraphql.service;
 
+import com.hsn.springgraphql.dto.CreateCategoryRequest;
 import com.hsn.springgraphql.dto.CreateProductRequest;
 import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
 import com.hsn.springgraphql.repository.CategoryRepository;
 import com.hsn.springgraphql.repository.ProductRepository;
+import com.hsn.springgraphql.repository.ReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ReviewRepository reviewRepository;
 
     public Product getProduct(Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
@@ -27,9 +30,26 @@ public class ProductService {
         return optionalProduct.get();
     }
 
-    public Category getProductCategory(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("product not found"));
-        return product.getCategory();
+
+    public Category createNewCategory(CreateCategoryRequest request) {
+        Category category = new Category();
+        category.setName(request.name());
+        category.setDescription(request.description());
+        return categoryRepository.save(category);
+    }
+
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
+    }
+
+    public List<Category> getProductCategory(List<Product> products) {
+
+        List<Long> categoryIds = products.stream()
+                .map((product) -> product.getCategory().getId())
+                .distinct()
+                .toList();
+        return categoryRepository.findAllById(categoryIds).stream().toList();
+
 
     }
 
@@ -45,7 +65,7 @@ public class ProductService {
 
         }
         Product product = Product.builder()
-                .name(request.productName())
+                .name(request.name())
                 .price(request.price())
                 .stock(request.stock())
                 .description(request.description())
@@ -53,5 +73,10 @@ public class ProductService {
                 .build();
         return productRepository.save(product);
     }
+//
+//    public List<Review> fetchReviewsForProduct(Product product){
+//        return   reviewRepository.findAll()
+//
+//    }
 
 }

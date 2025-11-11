@@ -1,7 +1,7 @@
 package com.hsn.springgraphql.dto;
 
 public record CreateProductRequest(
-        String productName,
+        String name,
         String description,
         double price,
         int stock,

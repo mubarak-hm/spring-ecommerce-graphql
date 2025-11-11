@@ -80,11 +80,14 @@ type  Review{
 
 
 type  Query {
-    orders: [Order]!
+    orders: [Order!]!
     order(id:ID!) :Order!
 
-    products: [Product]!
+    products: [Product!]!
     product(id:ID!) :Product!
+
+    categories:[Category]!
+    category(id:ID):Category!
 }
 
 input  CreateProductInput{

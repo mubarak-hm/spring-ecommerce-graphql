@@ -31,5 +31,4 @@ public class Review {
         createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
 }
