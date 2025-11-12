@@ -45,10 +45,10 @@ public class ProductService {
     public List<Category> getProductCategory(List<Product> products) {
 
         List<Long> categoryIds = products.stream()
-                .map((product) -> product.getCategory().getId())
+                .map(Product::getCategoryId)
                 .distinct()
                 .toList();
-        return categoryRepository.findAllById(categoryIds).stream().toList();
+        return categoryRepository.findAllById(categoryIds);
 
 
     }

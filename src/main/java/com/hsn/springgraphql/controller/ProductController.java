@@ -5,10 +5,12 @@ import com.hsn.springgraphql.dto.CreateCategoryRequest;
 import com.hsn.springgraphql.dto.CreateProductRequest;
 import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
-import com.hsn.springgraphql.entity.Review;
 import com.hsn.springgraphql.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.graphql.data.method.annotation.*;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.BatchMapping;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class ProductController {
                 .stream().collect(Collectors.toMap(Category::getId, category -> category));
         return products.stream()
                 .collect(Collectors.toMap
-                        (product -> product, product -> categoryMap.get(product.getCategory().getId())));
+                        (product -> product, product -> categoryMap.get(product.getCategoryId())));
 
     }
 
