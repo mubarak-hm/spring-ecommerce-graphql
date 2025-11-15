@@ -5,15 +5,20 @@ import com.hsn.springgraphql.dto.CreateProductRequest;
 import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
 import com.hsn.springgraphql.entity.Review;
+import com.hsn.springgraphql.entity.User;
+import com.hsn.springgraphql.interfaces.RatingAverage;
 import com.hsn.springgraphql.repository.CategoryRepository;
 import com.hsn.springgraphql.repository.ProductRepository;
 import com.hsn.springgraphql.repository.ReviewRepository;
+import com.hsn.springgraphql.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +27,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
 
     public Product getProduct(Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
@@ -73,8 +79,28 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Review> getReviewsForProducts(List<Long> productIds){
-        return   reviewRepository.findByProductIdIn(productIds);
+    public List<Review> getReviewsForProducts(List<Long> productIds) {
+        return reviewRepository.findByProductIdIn(productIds);
     }
 
+
+    public List<User> getSellersByIds(List<Long> userIds) {
+        return userRepository.findAllById(userIds);
+    }
+
+    public List<Review> getReviewsForUsers(List<Long> userIds) {
+        return reviewRepository.findByUserIdIn(userIds);
+    }
+
+    public List<Product> getProductsForCategories(List<Long> categoryIds) {
+        return productRepository.findByCategoryIdIn(categoryIds);
+    }
+
+    public Map<Long, Double> getAverageRatings(List<Long> productIds) {
+        return reviewRepository.findAverageRatings(productIds).stream()
+                .collect(Collectors.toMap(
+                        RatingAverage::getProductId,
+                        RatingAverage::getAverage
+                ));
+    }
 }

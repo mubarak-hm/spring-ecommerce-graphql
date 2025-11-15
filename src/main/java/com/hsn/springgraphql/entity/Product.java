@@ -31,13 +31,19 @@ public class Product {
     @Column(name = "category_id", insertable = false, updatable = false)
     private Long categoryId;
 
+
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
     private User seller;
+
+
+    @Column(name = "seller_id", insertable = false, updatable = false)
+    private Long sellerId;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
