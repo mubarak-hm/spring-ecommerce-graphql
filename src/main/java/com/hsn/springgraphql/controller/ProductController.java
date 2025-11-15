@@ -1,7 +1,4 @@
 package com.hsn.springgraphql.controller;
-
-
-import com.hsn.springgraphql.dto.CreateCategoryRequest;
 import com.hsn.springgraphql.dto.CreateProductRequest;
 import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
@@ -43,10 +40,6 @@ public class ProductController {
     }
 
 
-    @QueryMapping
-    public List<Category> categories() {
-        return productService.getAllCategories();
-    }
 
     @QueryMapping
     public List<Product> products() {
@@ -59,10 +52,6 @@ public class ProductController {
         return productService.createProduct(input);
     }
 
-    @MutationMapping
-    Category createCategory(@Argument CreateCategoryRequest input) {
-        return productService.createNewCategory(input);
-    }
 
 
     @BatchMapping(typeName = "Product")
@@ -81,14 +70,14 @@ public class ProductController {
     }
 
 
-    @BatchMapping(typeName = "Product", field = "Seller")
+    @BatchMapping(typeName = "Product")
     public Map<Product, User> seller(List<Product> products) {
         List<Long> sellerIds = products.stream()
                 .map(Product::getSellerId)
                 .distinct()
                 .toList();
 
-        Map<Long, User> userMap = productService.getSellersByIds(sellerIds)
+        Map<Long, User> userMap = productService.getUsersByIds(sellerIds)
                 .stream().collect(Collectors.toMap(User::getId, user -> user));
 
         return products.stream()
@@ -97,7 +86,6 @@ public class ProductController {
                         product -> userMap.get(product.getSellerId())
                 ));
     }
-
 
     @BatchMapping(typeName = "Product", field = "averageRating")
     public Map<Product, Double> averageRating(List<Product> products) {

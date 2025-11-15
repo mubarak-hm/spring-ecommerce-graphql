@@ -84,10 +84,9 @@ public class ProductService {
     }
 
 
-    public List<User> getSellersByIds(List<Long> userIds) {
+    public List<User> getUsersByIds(List<Long> userIds) {
         return userRepository.findAllById(userIds);
     }
-
     public List<Review> getReviewsForUsers(List<Long> userIds) {
         return reviewRepository.findByUserIdIn(userIds);
     }
@@ -102,5 +101,9 @@ public class ProductService {
                         RatingAverage::getProductId,
                         RatingAverage::getAverage
                 ));
+    }
+
+    public List<Product> getProductsByIds(List<Long> ids) {
+        return productRepository.findAllById(ids);
     }
 }

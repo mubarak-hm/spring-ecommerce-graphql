@@ -35,7 +35,7 @@ type  Product {
     price : Float!
     stock: Int!
     category :Category!
-    Seller: User!
+    seller: User!
     reviews :[Review!]!
     averageRating:Float!
     createdAt: String!
@@ -114,7 +114,6 @@ input CreateNewOrderItemInput{
     quantity:Int!
 
 }
-
 
 
 type  Mutation {

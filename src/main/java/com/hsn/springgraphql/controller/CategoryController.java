@@ -1,11 +1,15 @@
 // In src/main/java/com/hsn/springgraphql/controller/CategoryController.java
 package com.hsn.springgraphql.controller;
 
+import com.hsn.springgraphql.dto.CreateCategoryRequest;
 import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
 import com.hsn.springgraphql.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collections;
@@ -18,6 +22,18 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     private final ProductService productService;
+
+
+    @MutationMapping
+    Category createCategory(@Argument CreateCategoryRequest input) {
+        return productService.createNewCategory(input);
+    }
+
+
+    @QueryMapping
+    public List<Category> categories() {
+        return productService.getAllCategories();
+    }
 
     @BatchMapping(typeName = "Category", field = "products")
     public Map<Category, List<Product>> products(List<Category> categories) {

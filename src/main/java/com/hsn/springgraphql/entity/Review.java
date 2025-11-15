@@ -28,6 +28,8 @@ public class Review {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Long userId;
 
     @Column(name = "product_id", insertable = false, updatable = false)
     private Long productId;

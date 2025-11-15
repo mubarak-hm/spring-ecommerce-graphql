@@ -27,6 +27,8 @@ public class OrderItem {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
+    @Column(name = "product_id", insertable = false, updatable = false)
+    private Long productId;
 
     private int quantity;
     private double subtotal;
