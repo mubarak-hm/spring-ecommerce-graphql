@@ -5,14 +5,13 @@ import com.hsn.springgraphql.dto.CreateCategoryRequest;
 import com.hsn.springgraphql.dto.CreateProductRequest;
 import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
+import com.hsn.springgraphql.entity.Review;
 import com.hsn.springgraphql.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.BatchMapping;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.*;
 import org.springframework.stereotype.Controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -62,10 +61,20 @@ public class ProductController {
     }
 
 
-//    @SchemaMapping(typeName = "Product")
-//    public List<Review> reviews(Product product) {
-//        return productService.fetchReviewsForProduct(product);
-//    }
+    @SchemaMapping(typeName = "Product")
+    public Map<Product, List<Review>> reviews(List<Product> products) {
+        List<Long> productIds = products.stream()
+                .map(Product::getId)
+                .distinct()
+                .toList();
+        List<Review> reviews = productService.getReviewsForProducts(productIds);
+        Map<Long, List<Review>> reviewsByProductId = reviews.stream()
+                .collect(Collectors.groupingBy(Review::getProductId));
+
+        return products.stream()
+                .collect(Collectors.toMap(product -> product, product ->
+                        reviewsByProductId.getOrDefault(product.getId(), Collections.emptyList())));
+    }
 
 
 }

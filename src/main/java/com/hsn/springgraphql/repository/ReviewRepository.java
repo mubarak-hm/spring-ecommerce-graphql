@@ -3,6 +3,8 @@ package com.hsn.springgraphql.repository;
 import com.hsn.springgraphql.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface ReviewRepository extends JpaRepository<Review,Long> {
-    Review findByProductId(Long productId);
+   List<Review> findByProductIdIn(List<Long> productIds);
 }

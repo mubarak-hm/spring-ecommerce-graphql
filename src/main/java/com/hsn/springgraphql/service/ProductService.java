@@ -4,6 +4,7 @@ import com.hsn.springgraphql.dto.CreateCategoryRequest;
 import com.hsn.springgraphql.dto.CreateProductRequest;
 import com.hsn.springgraphql.entity.Category;
 import com.hsn.springgraphql.entity.Product;
+import com.hsn.springgraphql.entity.Review;
 import com.hsn.springgraphql.repository.CategoryRepository;
 import com.hsn.springgraphql.repository.ProductRepository;
 import com.hsn.springgraphql.repository.ReviewRepository;
@@ -49,8 +50,6 @@ public class ProductService {
                 .distinct()
                 .toList();
         return categoryRepository.findAllById(categoryIds);
-
-
     }
 
     public List<Product> getAllProducts() {
@@ -73,10 +72,9 @@ public class ProductService {
                 .build();
         return productRepository.save(product);
     }
-//
-//    public List<Review> fetchReviewsForProduct(Product product){
-//        return   reviewRepository.findAll()
-//
-//    }
+
+    public List<Review> getReviewsForProducts(List<Long> productIds){
+        return   reviewRepository.findByProductIdIn(productIds);
+    }
 
 }

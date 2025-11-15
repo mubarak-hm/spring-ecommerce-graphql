@@ -1,8 +1,11 @@
 package com.hsn.springgraphql.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 @Entity
 @Table(name = "reviews")
 public class Review {
@@ -16,7 +19,7 @@ public class Review {
     @Column(columnDefinition = "TEXT")
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -24,6 +27,8 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "product_id", insertable = false, updatable = false)
+    private Long productId;
     private LocalDateTime createdAt;
 
     @PrePersist
