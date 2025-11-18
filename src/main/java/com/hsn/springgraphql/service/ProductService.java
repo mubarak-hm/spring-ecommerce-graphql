@@ -45,6 +45,11 @@ public class ProductService {
         return categoryRepository.save(category);
     }
 
+
+    public Category getCategory(Long id) {
+        return  categoryRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("category not found"));
+    }
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }

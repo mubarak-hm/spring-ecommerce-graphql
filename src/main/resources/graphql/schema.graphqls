@@ -23,8 +23,8 @@ type  User {
     name:String!
     role:Role!
     createdAt:String!
-    UpdatedAt:String!
-    Orders:[Order!]!
+    updatedAt:String!
+    orders:[Order!]!
     reviews: [Review!]!
 }
 
@@ -39,7 +39,7 @@ type  Product {
     reviews :[Review!]!
     averageRating:Float!
     createdAt: String!
-    UpdatedAt: String!
+    updatedAt: String!
 }
 
 type Category{
@@ -106,13 +106,10 @@ input  CreateCategoryInput{
 input CreateNewOrderInput{
     items: [CreateNewOrderItemInput!]!
     paymentMethod: PaymentMethod!
-
-
 }
 input CreateNewOrderItemInput{
     productId: ID!
     quantity:Int!
-
 }
 
 

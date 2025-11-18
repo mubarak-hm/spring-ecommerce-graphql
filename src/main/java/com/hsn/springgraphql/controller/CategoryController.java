@@ -1,4 +1,3 @@
-// In src/main/java/com/hsn/springgraphql/controller/CategoryController.java
 package com.hsn.springgraphql.controller;
 
 import com.hsn.springgraphql.dto.CreateCategoryRequest;
@@ -22,8 +21,6 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     private final ProductService productService;
-
-
     @MutationMapping
     Category createCategory(@Argument CreateCategoryRequest input) {
         return productService.createNewCategory(input);
@@ -33,6 +30,12 @@ public class CategoryController {
     @QueryMapping
     public List<Category> categories() {
         return productService.getAllCategories();
+    }
+
+    @QueryMapping
+
+    public  Category category(@Argument String id){
+         return productService.getCategory(Long.parseLong(id));
     }
 
     @BatchMapping(typeName = "Category", field = "products")

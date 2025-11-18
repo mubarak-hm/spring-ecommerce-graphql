@@ -54,7 +54,7 @@ public class ProductController {
 
 
 
-    @BatchMapping(typeName = "Product")
+    @BatchMapping(typeName = "Product",field = "reviews")
     public Map<Product, List<Review>> reviews(List<Product> products) {
         List<Long> productIds = products.stream()
                 .map(Product::getId)
@@ -70,7 +70,7 @@ public class ProductController {
     }
 
 
-    @BatchMapping(typeName = "Product")
+    @BatchMapping(typeName = "Product", field = "seller")
     public Map<Product, User> seller(List<Product> products) {
         List<Long> sellerIds = products.stream()
                 .map(Product::getSellerId)

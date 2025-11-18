@@ -21,12 +21,11 @@ public class UserController {
     private final OrderService orderService;
     private final ProductService productService;
 
-    @BatchMapping(typeName = "User", field = "Orders")
+    @BatchMapping(typeName = "User", field = "orders")
     public Map<User, List<Order>> orders(List<User> users) {
         List<Long> userIds = users.stream().map(User::getId).toList();
 
         List<Order> allOrders = orderService.getOrdersForUsers(userIds);
-
         Map<Long, List<Order>> ordersByUserId = allOrders.stream()
                 .collect(Collectors.groupingBy(Order::getUserId));
 
